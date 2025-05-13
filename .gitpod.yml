@@ -1,8 +1,16 @@
 image: gitpod/workspace-python-3.8
 
+# Gitpod configuration file for initializing the workspace
+
 tasks:
-  - init: pip install -r requirements.txt
+  - init: pip install -r requirements.txt || pip install numpy
+    command: python3 main.py
 
 vscode:
   extensions:
-    - https://github.com/freeCodeCamp/freecodecamp-dark-vscode-theme/releases/download/v1.0.0/freecodecamp-dark-vscode-theme-1.0.0.vsix
+    - ms-python.python
+
+# Optionally, you can add ports or other settings as needed
+# ports:
+#   - port: 8888
+#     onOpen: open-preview

@@ -1,8 +1,6 @@
 import unittest
 import mean_var_std
 
-
-# the test case
 class UnitTests(unittest.TestCase):
     def test_calculate(self):
         actual = mean_var_std.calculate([2,6,2,8,4,0,1,5,7])
@@ -16,6 +14,45 @@ class UnitTests(unittest.TestCase):
     
     def test_calculate_with_few_digits(self):
         self.assertRaisesRegex(ValueError, "List must contain nine numbers.", mean_var_std.calculate, [2,6,2,8,4,0,1,])
+
+    def test_calculate_all_zeros(self):
+        actual = mean_var_std.calculate([0,0,0,0,0,0,0,0,0])
+        expected = {
+            'mean': [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], 0.0],
+            'variance': [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], 0.0],
+            'standard deviation': [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], 0.0],
+            'max': [[0, 0, 0], [0, 0, 0], 0],
+            'min': [[0, 0, 0], [0, 0, 0], 0],
+            'sum': [[0, 0, 0], [0, 0, 0], 0]
+        }
+        self.assertEqual(actual, expected)
+
+    def test_calculate_sequential(self):
+        actual = mean_var_std.calculate([0,1,2,3,4,5,6,7,8])
+        expected = {
+            'mean': [[3.0, 4.0, 5.0], [1.0, 4.0, 7.0], 4.0],
+            'variance': [[6.0, 6.0, 6.0], [0.6666666666666666, 0.6666666666666666, 0.6666666666666666], 6.666666666666667],
+            'standard deviation': [[2.449489742783178, 2.449489742783178, 2.449489742783178], [0.816496580927726, 0.816496580927726, 0.816496580927726], 2.581988897471611],
+            'max': [[6, 7, 8], [2, 5, 8], 8],
+            'min': [[0, 1, 2], [0, 3, 6], 0],
+            'sum': [[9, 12, 15], [3, 12, 21], 36]
+        }
+        self.assertEqual(actual, expected)
+
+    def test_calculate_negative_numbers(self):
+        actual = mean_var_std.calculate([-1,-2,-3,-4,-5,-6,-7,-8,-9])
+        expected = {
+            'mean': [[-4.0, -5.0, -6.0], [-2.0, -5.0, -8.0], -5.0],
+            'variance': [[6.0, 6.0, 6.0], [0.6666666666666666, 0.6666666666666666, 0.6666666666666666], 6.666666666666667],
+            'standard deviation': [[2.449489742783178, 2.449489742783178, 2.449489742783178], [0.816496580927726, 0.816496580927726, 0.816496580927726], 2.581988897471611],
+            'max': [[-1, -2, -3], [-1, -4, -7], -1],
+            'min': [[-7, -8, -9], [-3, -6, -9], -9],
+            'sum': [[-12, -15, -18], [-6, -15, -24], -45]
+        }
+        self.assertEqual(actual, expected)
+
+if __name__ == "__main__":
+    unittest.main()
 
 if __name__ == "__main__":
     unittest.main()
